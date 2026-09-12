@@ -1,0 +1,27 @@
+name: FEST GUARD Runner
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 */5 * * *'
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodları Çek
+        uses: actions/checkout@v3
+
+      - name: Node.js Kur
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Paketleri Yükle
+        run: npm install
+
+      - name: Botu Başlat
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: node index.js
