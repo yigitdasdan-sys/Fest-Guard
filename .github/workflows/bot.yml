@@ -1,22 +1,23 @@
 name: FEST GUARD Runner
 
 on:
-  push:
-    branches: [ main, master ]
+  workflow_dispatch:
   schedule:
+    # Her 5 saatte bir botu otomatik olarak yeniden başlatır (7/24 açık kalması için)
     - cron: '0 */5 * * *'
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+
     steps:
       - name: Kodları Çek
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Node.js Kur
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Paketleri Yükle
         run: npm install
@@ -25,3 +26,4 @@ jobs:
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: node index.js
+        
